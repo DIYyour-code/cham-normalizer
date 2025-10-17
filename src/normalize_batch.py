@@ -24,6 +24,18 @@ def col(df,*keys):
         if any(k in c for k in keys): return df[m[c]]
     return pd.Series([""]*len(df))
 
+
+
+def classify(cols):
+    L = [str(c).lower() for c in cols]
+    score = {"attendance":0,"events":0,"certificates":0,"payments":0,"catalog":0}
+    for c in L:
+        if any(k in c for k in ["attend","roster","registrant","participant","seat"]): score["attendance"]+=1
+        if any(k in c for k in ["event","start","end","location","host","venue"]): score["events"]+=1
+        if any(k in c for k in ["cert","complete","graduat"]): score["certificates"]+=1
+        if any(k in c for k in ["order","payment","amount","txn","invoice"]): score["payments"]+=1
+        if any(k in c for k in ["course","training","catalog","code","ce hours","ceu"]): score["catalog"]+=1
+    return max(score, key=score.get)
 def read_csv_fast(p: Path):
     try:    return pd.read_csv(p, dtype=str).fillna("")
     except: return pd.read_csv(p, dtype=str, encoding="latin1").fillna("")
