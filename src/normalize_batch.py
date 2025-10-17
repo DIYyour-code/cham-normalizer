@@ -188,14 +188,7 @@ def main():
         except Exception:
             continue
 
-        label = max(
-            (("attendance",sum(k in str(c).lower() for k in ["attend","roster","registrant","participant","seat"])),
-             ("events",    sum(k in str(c).lower() for k in ["event","start","end","location","host","venue"])),
-             ("certificates",sum(k in str(c).lower() for k in ["cert","complete","graduat"])),
-             ("payments",  sum(k in str(c).lower() for k in ["order","payment","amount","txn","invoice"])),
-             ("catalog",   sum(k in str(c).lower() for k in ["course","training","catalog","code","ce hours","ceu"]))),
-            key=lambda x:x[1]
-        )[0]
+        label = classify(df.columns)
 
         email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
         org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map)
