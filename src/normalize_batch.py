@@ -24,17 +24,6 @@ def col(df,*keys):
         if any(k in c for k in keys): return df[m[c]]
     return pd.Series([""]*len(df))
 
-def classify(cols):
-    L = [str(c).lower() for c in cols]
-    score = {"attendance":0,"events":0,"certificates":0,"payments":0,"catalog":0}
-    for c in L:
-        if any(k in c for k in ["attend","roster","registrant","participant","seat"]): score["attendance"]+=1
-        if any(k in c for k in ["event","start","end","location","host","venue"]): score["events"]+=1
-        if any(k in c for k in ["cert","complete","graduat"]): score["certificates"]+=1
-        if any(k in c for k in ["order","payment","amount","txn","invoice"]): score["payments"]+=1
-        if any(k in c for k in ["course","training","catalog","code","ce hours","ceu"]): score["catalog"]+=1
-    return max(score, key=score.get)
-
 def read_csv_fast(p: Path):
     try:    return pd.read_csv(p, dtype=str).fillna("")
     except: return pd.read_csv(p, dtype=str, encoding="latin1").fillna("")
@@ -82,10 +71,13 @@ def build_contact_email_set(contacts_xlsx: Path):
 
 # ---------- org column chooser ----------
 def candidate_org_cols(df):
-    cols = list(df.columns)
+    # Coerce ALL headers to strings; some Excel headers come in as datetimes/numbers
+    cols = [str(c) for c in df.columns]
     L = [c.lower().strip() for c in cols]
-    bad_sub = {"address","street","line1","line2","city","state","zip","postal","phone","fax"}
+
+    bad_sub  = {"address","street","line1","line2","city","state","zip","postal","phone","fax"}
     good_any = {"organization","org","company","employer","sponsor","host","agency","dept","department"}
+
     scored = []
     for c, cl in zip(cols, L):
         score = 0
@@ -93,8 +85,12 @@ def candidate_org_cols(df):
         if any(g in cl for g in good_any): score += 25
         if any(b in cl for b in bad_sub): score -= 200
         if "email" in cl or "contact" in cl: score -= 50
+        if cl.startswith("unnamed:"): score -= 400  # strong penalty for unlabeled columns
         scored.append((score, c))
+
+    # Highest score first
     return [c for _, c in sorted(scored, reverse=True)]
+
 
 def choose_best_org_series(df, email_series, org_lookup, domain_map):
     def pick_domain(e):
@@ -192,7 +188,14 @@ def main():
         except Exception:
             continue
 
-        label = classify(df.columns)
+        label = max(
+            (("attendance",sum(k in str(c).lower() for k in ["attend","roster","registrant","participant","seat"])),
+             ("events",    sum(k in str(c).lower() for k in ["event","start","end","location","host","venue"])),
+             ("certificates",sum(k in str(c).lower() for k in ["cert","complete","graduat"])),
+             ("payments",  sum(k in str(c).lower() for k in ["order","payment","amount","txn","invoice"])),
+             ("catalog",   sum(k in str(c).lower() for k in ["course","training","catalog","code","ce hours","ceu"]))),
+            key=lambda x:x[1]
+        )[0]
 
         email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
         org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map)
