@@ -24,31 +24,6 @@ def col(df,*keys):
         if any(k in c for k in keys): return df[m[c]]
     return pd.Series([""]*len(df))
 
-def pick_org_col(df):
-    # Score columns: prefer exact org/organization, penalize address-like
-    addr_bad = {"address","street","city","state","zip","postal","phone"}
-    scores = []
-    for c in df.columns:
-        cl = str(c).lower().strip()
-        score = 0
-        if cl in {"organization","org"}: score += 100
-        if "organization" in cl or cl == "org": score += 10
-        if any(b in cl for b in addr_bad): score -= 50
-        scores.append((score, c))
-    best = max(scores)[1]
-    return df[best]
-
-def classify(cols):
-    L = [str(c).lower() for c in cols]
-    score = {"attendance":0,"events":0,"certificates":0,"payments":0,"catalog":0}
-    for c in L:
-        if any(k in c for k in ["attend","roster","registrant","participant","seat"]): score["attendance"]+=1
-        if any(k in c for k in ["event","start","end","location","host","venue"]): score["events"]+=1
-        if any(k in c for k in ["cert","complete","graduat"]): score["certificates"]+=1
-        if any(k in c for k in ["order","payment","amount","txn","invoice"]): score["payments"]+=1
-        if any(k in c for k in ["course","training","catalog","code","ce hours","ceu"]): score["catalog"]+=1
-    return max(score, key=score.get)
-
 def read_csv_fast(p: Path):
     try:    return pd.read_csv(p, dtype=str).fillna("")
     except: return pd.read_csv(p, dtype=str, encoding="latin1").fillna("")
@@ -71,14 +46,20 @@ def unzip_select(zpath: Path, exts, outdir: Path):
             paths.append(dst)
     return paths
 
+# ---------- SSOT loaders ----------
 def build_org_lookup(canon_path: Path, alias_path: Path|None):
     canon = pd.read_csv(canon_path, dtype=str).fillna("")
-    lookup = {norm_key(r["Name (canonical)"]): r["org_id"] for _, r in canon.iterrows()}
+    lookup = {norm_key(r["Name (canonical)"]): str(r["org_id"]).strip()
+              for _, r in canon.iterrows()}
     if alias_path and alias_path.exists():
         alias_df = pd.read_csv(alias_path, dtype=str).fillna("")
-        for _, r in alias_df.iterrows():
-            if r.get("Alias") and r.get("To Org (id)"):
-                lookup[norm_key(r["Alias"])] = r["To Org (id)"]
+        a_col = next((c for c in alias_df.columns if c.lower().strip() in {"alias","aliasname"}), None)
+        t_col = next((c for c in alias_df.columns if c.lower().strip() in {"to org (id)","winnerorgid","to_org_id"}), None)
+        if a_col and t_col:
+            for _, r in alias_df.iterrows():
+                a, t = r.get(a_col), r.get(t_col)
+                if a and t:
+                    lookup[norm_key(a)] = str(t).strip()
     return lookup
 
 def build_contact_email_set(contacts_xlsx: Path):
@@ -88,87 +69,50 @@ def build_contact_email_set(contacts_xlsx: Path):
     email_col = next((c for c in df.columns if "email" in c.lower()), df.columns[0])
     return {e for e in df[email_col].astype(str).str.lower().str.strip() if e}
 
-def pick_org_col(df):
-    # Prefer exact org columns; penalize address-like columns
-    addr_bad = {"address","street","line1","line2","city","state","zip","postal","phone"}
-    best = None; best_score = -10**9
-    for c in df.columns:
-        cl = str(c).lower().strip()
+# ---------- org column chooser ----------
+def candidate_org_cols(df):
+    cols = list(df.columns)
+    L = [c.lower().strip() for c in cols]
+    bad_sub = {"address","street","line1","line2","city","state","zip","postal","phone","fax"}
+    good_any = {"organization","org","company","employer","sponsor","host","agency","dept","department"}
+    scored = []
+    for c, cl in zip(cols, L):
         score = 0
-        if cl in {"organization","org","employer","sponsor","host","agency","company"}: score += 100
-        if "organization" in cl or cl == "org": score += 20
-        if any(b in cl for b in addr_bad): score -= 200
-        if "contact" in cl or "email" in cl: score -= 50
-        if score > best_score: best_score, best = score, c
-    return df[best] if best is not None else pd.Series([""]*len(df))
+        if cl in {"organization","org"}: score += 100
+        if any(g in cl for g in good_any): score += 25
+        if any(b in cl for b in bad_sub): score -= 200
+        if "email" in cl or "contact" in cl: score -= 50
+        scored.append((score, c))
+    return [c for _, c in sorted(scored, reverse=True)]
 
-def process_files(files, org_lookup, contact_emails, csv_mode=False):
-    catalog_rows, events_rows, attendance_rows, cert_rows, pay_rows = [], [], [], [], []
-    unmatched_orgs, unmatched_contacts = set(), set()
+def choose_best_org_series(df, email_series, org_lookup, domain_map):
+    def pick_domain(e):
+        e = str(e).lower().strip()
+        d = e.split("@")[-1] if "@" in e else ""
+        return d[4:] if d.startswith("www.") else d
 
-    for p in files:
-        try:
-            if csv_mode:
-                df = read_csv_fast(p)
-            else:
-                df = read_excel_best_sheet(p) if p.suffix.lower() in (".xlsx",".xls") else read_csv_fast(p)
-        except Exception:
-            continue
+    best_col = None
+    best_hits = -1
+    best_series = pd.Series([""]*len(df))
+    tried = []
 
-        label = classify(df.columns)
-        org_col   = pick_org_col(df)
-        name_col  = col(df,"name","full name","attendee name","first name")
-        last_col  = col(df,"last name","surname","lname")
-        email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
-        event_col = col(df,"event","course","training","session","class","title")
-        code_col  = col(df,"code","course code","training code")
-        start_col = col(df,"start","start date","date start","begin","start time")
-        end_col   = col(df,"end","end date","date end","finish","end time")
-        loc_col   = col(df,"location","city","venue","address")
-        mode_col  = col(df,"delivery mode","mode","format")
-        status    = col(df,"status","registration status","attendance status","state")
-        hours     = col(df,"ce hours","hours","ceu")
-        desc      = col(df,"description","details","about","notes")
-        complete  = col(df,"complete","completed","graduat","certificate","certified").astype(str)
+    for c in candidate_org_cols(df)[:6]:
+        s = df[c].astype(str)
+        base_keys = s.map(norm_key)
+        mapped = base_keys.map(lambda k: org_lookup.get(k,""))
+        domains = email_series.astype(str).map(pick_domain)
+        mapped = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d,"")))
+        hits = (mapped != "").sum()
+        nonempty = (s.astype(str).str.strip() != "").sum()
+        tried.append((c, int(hits), int(nonempty)))
+        if hits > best_hits:
+            best_hits, best_col, best_series = hits, c, s
+    print("ORG_COL_TRY:", tried[:3], "-> PICK:", best_col, "hits:", best_hits)
+    return best_series
 
-        org_ids = org_col.apply(norm_key).map(lambda k: org_lookup.get(k,""))
-        for k, oid in zip(org_col.apply(norm_key), org_ids):
-            if k and not oid: unmatched_orgs.add(k)
-        for ek in email_col:
-            if ek and ek not in contact_emails: unmatched_contacts.add(ek)
-
-        if label=="catalog":
-            for nm, cc, de, hr in zip(event_col, code_col, desc, hours):
-                catalog_rows.append({"external_id":hash_id(nm,cc),"Training Name":norm_text(nm),"Code":norm_text(cc),"Description":norm_text(de),"CE Hours Default":norm_text(hr)})
-        elif label=="events":
-            for nm, st, en, loc, md in zip(event_col, start_col, end_col, loc_col, mode_col):
-                events_rows.append({"external_id":hash_id(nm,st,en,loc),"Event Name":norm_text(nm),"Event Type":"training","Start Date":norm_text(st),"End Date":norm_text(en),"Location":norm_text(loc),"Delivery Mode":norm_text(md)})
-        elif label=="attendance":
-            for fn, ln, em, oid, ev, st in zip(name_col, last_col, email_col, org_ids, event_col, status):
-                full = norm_text(fn) or (f"{norm_text(fn)} {norm_text(ln)}").strip()
-                attendance_rows.append({"external_id":hash_id(em,oid,ev,st),"Contact Email":norm_text(em),"Contact Name":full,"Organization (id)":oid,"Event Name":norm_text(ev),"Registration Status":norm_text(st)})
-        elif label=="certificates":
-            for em, tr, dt, comp in zip(email_col, event_col, start_col, complete):
-                val = str(comp).lower()
-                status_val = "issued" if any(t in val for t in ["yes","true","complete","graduat","1"]) else ""
-                cert_rows.append({"external_id":hash_id(em,tr,dt),"Contact Email":norm_text(em),"Training/Event":norm_text(tr),"Issued On":norm_text(dt),"Status":status_val})
-        elif label=="payments":
-            for oid, amt, payer, tr in zip(col(df,"order id","order","invoice","id"), col(df,"amount","total","payment amount"), email_col, event_col):
-                pay_rows.append({"external_id":hash_id(oid,payer,tr,amt),"Order/Invoice":norm_text(oid),"Amount":norm_text(amt),"Payer Email":norm_text(payer),"Event/Training":norm_text(tr)})
-
-    frames = {
-        "training_catalog_preview.csv": pd.DataFrame(catalog_rows).drop_duplicates(subset=["external_id"]),
-        "events_preview.csv":           pd.DataFrame(events_rows).drop_duplicates(subset=["external_id"]),
-        "attendance_preview.csv":       pd.DataFrame(attendance_rows).drop_duplicates(subset=["external_id"]),
-        "certificates_preview.csv":     pd.DataFrame(cert_rows).drop_duplicates(subset=["external_id"]),
-        "payments_preview.csv":         pd.DataFrame(pay_rows).drop_duplicates(subset=["external_id"]),
-        "unmatched_orgs.csv":           pd.DataFrame(sorted(unmatched_orgs), columns=["org_name_normalized"]),
-        "unmatched_contacts.csv":       pd.DataFrame(sorted(unmatched_contacts), columns=["email"]),
-    }
-    return frames
-
+# ---------- main processing ----------
 def main():
-    ap = argparse.ArgumentParser(description="CHAM Batch A normalizer (local, chunked).")
+    ap = argparse.ArgumentParser(description="CHAM Batch A normalizer (local, chunked) with alias/domain/parent mapping.")
     ap.add_argument("--data-dir", default="data", help="Folder with zips and master files")
     ap.add_argument("--out-dir",  default="out",  help="Output folder")
     ap.add_argument("--start", type=int, default=0, help="Start index for Excel files")
@@ -184,31 +128,157 @@ def main():
     canon_path    = data_dir / "canonical_orgs_master_final.csv"
     contacts_xlsx = data_dir / "contacts-master-union-925-postor.xlsx"
     alias_path    = data_dir / "organization_aliases_master.csv"
+    domain_path   = data_dir / "domain_to_org.csv"
+    parents_path  = data_dir / "org_parents.csv"
 
     org_lookup     = build_org_lookup(canon_path, alias_path if alias_path.exists() else None)
     contact_emails = build_contact_email_set(contacts_xlsx)
 
+    # Domain → Org map
+    domain_map = {}
+    if domain_path.exists():
+        ddf = pd.read_csv(domain_path, dtype=str).fillna("")
+        d_col = next((c for c in ddf.columns if c.lower() in {"domain","emaildomain","domainprimarynorm"}), None)
+        t_col = next((c for c in ddf.columns if c.lower() in {"to org (id)","winnerorgid","to_org_id"}), None)
+        if d_col and t_col:
+            d_ser = ddf[d_col].astype(str).str.lower().str.strip().str.replace(r"^www\.", "", regex=True)
+            domain_map = {d: str(t).strip() for d, t in zip(d_ser, ddf[t_col]) if d and str(t).strip()}
+
+    # Parent map
+    parent_map = {}
+    if parents_path.exists():
+        pdf = pd.read_csv(parents_path, dtype=str).fillna("")
+        c_col = next((c for c in pdf.columns if c.lower() in {"org (id)","orgid"}), None)
+        p_col = next((c for c in pdf.columns if c.lower() in {"parent org (id)","parentorgid"}), None)
+        if c_col and p_col:
+            for _, r in pdf.iterrows():
+                cid, pid = str(r.get(c_col,"")).strip(), str(r.get(p_col,"")).strip()
+                if cid and pid: parent_map[cid] = pid
+
+    # unzip sources
     zip1 = data_dir / "events data exports.zip"
     zip2 = data_dir / "New Training Data 2.zip"
-
     csv_files, xls_files = [], []
     for z in [zip1, zip2]:
         if z.exists():
             csv_files += unzip_select(z, [".csv"], work_dir)
             xls_files += unzip_select(z, [".xlsx",".xls"], work_dir)
-
     files = csv_files if args.csv_only else (csv_files + xls_files[args.start: args.start + args.limit])
 
-    frames = process_files(files, org_lookup, contact_emails, csv_mode=args.csv_only)
+    # collectors
+    catalog_rows, events_rows, attendance_rows, cert_rows, pay_rows = [], [], [], [], []
+    unmatched_orgs, unmatched_contacts = set(), set()
 
-    for name, df in frames.items():
-        df.to_csv(out_dir / name, index=False)
+    def pick_domain(e):
+        e = str(e).lower().strip()
+        dom = e.split("@")[-1] if "@" in e else ""
+        if dom.startswith("www."): dom = dom[4:]
+        return dom
+
+    for p in files:
+        try:
+            df = read_csv_fast(p) if args.csv_only else (read_excel_best_sheet(p) if p.suffix.lower() in (".xlsx",".xls") else read_csv_fast(p))
+        except Exception:
+            continue
+
+        label = max(
+            (("attendance",sum(k in str(c).lower() for k in ["attend","roster","registrant","participant","seat"])),
+             ("events",    sum(k in str(c).lower() for k in ["event","start","end","location","host","venue"])),
+             ("certificates",sum(k in str(c).lower() for k in ["cert","complete","graduat"])),
+             ("payments",  sum(k in str(c).lower() for k in ["order","payment","amount","txn","invoice"])),
+             ("catalog",   sum(k in str(c).lower() for k in ["course","training","catalog","code","ce hours","ceu"]))),
+            key=lambda x:x[1]
+        )[0]
+
+        email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
+        org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map)
+        name_col  = col(df,"name","full name","attendee name","first name")
+        last_col  = col(df,"last name","surname","lname")
+        event_col = col(df,"event","course","training","session","class","title")
+        code_col  = col(df,"code","course code","training code")
+        start_col = col(df,"start","start date","date start","begin","start time")
+        end_col   = col(df,"end","end date","date end","finish","end time")
+        loc_col   = col(df,"location","city","venue","address")
+        mode_col  = col(df,"delivery mode","mode","format")
+        status    = col(df,"status","registration status","attendance status","state")
+        hours     = col(df,"ce hours","hours","ceu")
+        desc      = col(df,"description","details","about","notes")
+        complete  = col(df,"complete","completed","graduat","certificate","certified").astype(str)
+
+        # name/alias mapping
+        base_keys = org_col.map(norm_key)
+        org_ids = base_keys.map(lambda k: org_lookup.get(k,""))
+
+        # domain fallback
+        email_domains = email_col.map(pick_domain)
+        domain_hits = email_domains.map(lambda d: domain_map.get(d,""))
+        org_ids = org_ids.mask(org_ids.eq(""), domain_hits)
+
+        # track unmatched org names (after both passes)
+        for k, oid in zip(base_keys, org_ids):
+            if k and not oid: unmatched_orgs.add(k)
+
+        # unmatched contacts (not in contacts master)
+        for ek in email_col:
+            if ek and ek not in contact_emails: unmatched_contacts.add(ek)
+
+        if label=="catalog":
+            for nm, cc, de, hr in zip(event_col, code_col, desc, hours):
+                catalog_rows.append({"external_id":hash_id(nm,cc),"Training Name":norm_text(nm),"Code":norm_text(cc),"Description":norm_text(de),"CE Hours Default":norm_text(hr)})
+        elif label=="events":
+            for nm, st, en, loc, md in zip(event_col, start_col, end_col, loc_col, mode_col):
+                events_rows.append({"external_id":hash_id(nm,st,en,loc),"Event Name":norm_text(nm),"Event Type":"training","Start Date":norm_text(st),"End Date":norm_text(en),"Location":norm_text(loc),"Delivery Mode":norm_text(md)})
+        elif label=="attendance":
+            for fn, ln, em, oid, ev, st in zip(name_col, last_col, email_col, org_ids, event_col, status):
+                full = norm_text(fn) or (f"{norm_text(fn)} {norm_text(ln)}").strip()
+                parent = parent_map.get(oid,"") if oid else ""
+                attendance_rows.append({
+                    "external_id":hash_id(em,oid,ev,st),
+                    "Contact Email":norm_text(em),
+                    "Contact Name":full,
+                    "Organization (id)":oid,
+                    "Parent Organization (id)":parent,
+                    "Event Name":norm_text(ev),
+                    "Registration Status":norm_text(st)
+                })
+        elif label=="certificates":
+            for em, tr, dt, comp in zip(email_col, event_col, start_col, complete):
+                val = str(comp).lower()
+                status_val = "issued" if any(t in val for t in ["yes","true","complete","graduat","1"]) else ""
+                cert_rows.append({"external_id":hash_id(em,tr,dt),"Contact Email":norm_text(em),"Training/Event":norm_text(tr),"Issued On":norm_text(dt),"Status":status_val})
+        elif label=="payments":
+            for oid, amt, payer, tr in zip(col(df,"order id","order","invoice","id"), col(df,"amount","total","payment amount"), email_col, event_col):
+                payer_domain = pick_domain(payer)
+                payer_org = domain_map.get(payer_domain,"")
+                parent = parent_map.get(payer_org,"") if payer_org else ""
+                pay_rows.append({
+                    "external_id":hash_id(oid,payer,tr,amt),
+                    "Order/Invoice":norm_text(oid),
+                    "Amount":norm_text(amt),
+                    "Payer Email":norm_text(payer),
+                    "Payer Org (id)":payer_org,
+                    "Parent Organization (id)":parent,
+                    "Event/Training":norm_text(tr)
+                })
+
+    frames = {
+        "training_catalog_preview.csv": pd.DataFrame(catalog_rows).drop_duplicates(subset=["external_id"]),
+        "events_preview.csv":           pd.DataFrame(events_rows).drop_duplicates(subset=["external_id"]),
+        "attendance_preview.csv":       pd.DataFrame(attendance_rows).drop_duplicates(subset=["external_id"]),
+        "certificates_preview.csv":     pd.DataFrame(cert_rows).drop_duplicates(subset=["external_id"]),
+        "payments_preview.csv":         pd.DataFrame(pay_rows).drop_duplicates(subset=["external_id"]),
+        "unmatched_orgs.csv":           pd.DataFrame(sorted(unmatched_orgs), columns=["org_name_normalized"]),
+        "unmatched_contacts.csv":       pd.DataFrame(sorted(unmatched_contacts), columns=["email"]),
+    }
+
+    for name, df in frames.items(): (out_dir / name).write_text(df.to_csv(index=False))
 
     zip_path = out_dir / (f"cham_normalized_batchA_{'csvonly' if args.csv_only else f'excel_{args.start}'}_.zip")
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
         for name in frames:
             z.write(out_dir / name, arcname=f"batchA/{name}")
 
+    print("MAPS:", {"aliases+canon_keys": len(org_lookup), "domain_map": len(domain_map), "parent_map": len(parent_map)})
     counts = {k: int(v.shape[0]) for k,v in frames.items()}
     print("ZIP:", zip_path)
     print("COUNTS:", counts)
