@@ -1,0 +1,10 @@
+/.venv/
+/data/
+/out/
+/exports/
+/__pycache__/
+*.pyc
+.DS_Store
+*.zip
+*.xlsx
+*.xls
