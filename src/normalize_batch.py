@@ -12,6 +12,35 @@ def norm_key(s):
     s = re.sub(r"[^a-z0-9 @\-\_\.]", "", s)
     return s.strip()
 
+def clean_org_value(val: str) -> str:
+    s = str(val or "").strip()
+    if not s:
+        return ""
+    lo = s.lower()
+
+    # drop lines that look like addresses
+    if any(tok in lo for tok in [" po box", " p.o. box", " st ", " ave", " road", " rd ", "dr ", " blvd", " hwy", " suite ", " ste "]):
+        # keep only first segment before a number-heavy tail
+        s = re.split(r"\d{2,}", s)[0].strip()
+
+    # remove trailing state code and optional numeric tag: " ... XX - 12345" / " ... XX"
+    s = re.sub(r"\s+[A-Z]{2}\s*(?:-\s*\d{2,})?$", "", s)
+
+    # remove obvious numeric-only suffixes like " - 072500"
+    s = re.sub(r"\s*-\s*\d{3,}$", "", s)
+
+    # collapse whitespace
+    s = re.sub(r"\s+", " ", s).strip()
+
+    # very short or obviously non-org tokens get dropped
+    if len(s) < 3:
+        return ""
+
+    return s
+
+
+
+
 def hash_id(*parts):
     h = hashlib.sha256("|".join([str(p or "").lower().strip() for p in parts]).encode("utf-8")).hexdigest()
     return h[:16]
@@ -104,13 +133,24 @@ def candidate_org_cols(df):
         if any(g in cl for g in good_any): score += 25
         if any(b in cl for b in bad_sub): score -= 200
         if "email" in cl or "contact" in cl: score -= 50
+
+        # hard drop for junky column names
+        bad_name_tokens = {
+            "first name","last name","fname","lname",
+            "invitee","attendee","passed test","class taken",
+            "phone","email","address","city","state","zip",
+            "report","purchase","domain report"
+        }
         if cl.startswith("unnamed:"): score -= 400
+        if any(t in cl for t in bad_name_tokens): score -= 400
+
         # date-like header? nuke its chances
         if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl):
             score -= 400
         # generic titles that aren't columns
         if "report" in cl or "purchase" in cl or "domain report" in cl:
             score -= 300
+
         scored.append((score, col_obj, cl))
     # highest score first; return original header objects
     scored.sort(key=lambda x: x[0], reverse=True)
@@ -127,82 +167,97 @@ def choose_best_org_series(df, email_series, org_lookup, domain_map):
 
     def value_profile(series: pd.Series):
         s = series.astype(str).str.strip().str.lower()
-        nonempty = (s != "").sum()
+        nonempty = int((s != "").sum())
         if nonempty == 0:
             return {"nonempty": 0, "uniq": 0, "boolish_ratio": 0.0}
-        # bool-ish tokens
         boolish = {"y","yes","n","no","true","false","0","1","passed","not passed","pass","fail"}
-        bool_hits = s.isin(boolish).sum()
-        uniq = s[s != ""].nunique(dropna=True)
-        return {"nonempty": int(nonempty), "uniq": int(uniq), "boolish_ratio": float(bool_hits) / float(nonempty)}
+        bool_hits = int(s.isin(boolish).sum())
+        uniq = int(s[s != ""].nunique(dropna=True))
+        return {"nonempty": nonempty, "uniq": uniq, "boolish_ratio": (bool_hits / nonempty) if nonempty else 0.0}
 
     def has_orgish_token(name: str):
-        cl = name.lower()
+        cl = str(name).lower()
         return any(t in cl for t in ["organization","org","company","employer","sponsor","agency","dept","department"])
+
+    bad_name_tokens = {
+        "first name","last name","fname","lname",
+        "invitee","attendee","passed test","class taken"
+    }
+
+    def acceptable(colname_str, hits, prof):
+        cl = str(colname_str).lower()
+        if cl.startswith("unnamed:"): return False
+        if any(t in cl for t in bad_name_tokens): return False
+        if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): return False
+        if "report" in cl or "purchase" in cl or "domain report" in cl: return False
+
+        if prof["nonempty"] > 0:
+            if prof["boolish_ratio"] >= 0.6:   # mostly yes/no/true/false
+                return False
+            if prof["uniq"] <= 5 and prof["nonempty"] >= 20:
+                return False
+
+        hit_rate = hits / max(1, prof["nonempty"])
+        if not has_orgish_token(colname_str) and hit_rate < 0.80:
+            return False
+
+        return hits >= max(5, int(0.30 * max(1, prof["nonempty"])))
 
     best_col, best_hits = None, -1
     best_series = pd.Series([""]*len(df))
     tried = []
 
-    def acceptable(colname_str, hits, prof):
-        cl = colname_str.lower()
-
-        # drop obvious junk
-        if cl.startswith("unnamed:"): return False
-        if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): return False
-        if "report" in cl or "purchase" in cl or "domain report" in cl: return False
-
-        # value-based filter: too boolean-ish or too low-cardinality?
-        if prof["nonempty"] > 0:
-            if prof["boolish_ratio"] >= 0.6:   # mostly yes/no/true/false/etc.
-                return False
-            if prof["uniq"] <= 5 and prof["nonempty"] >= 20:  # suspiciously few unique values
-                return False
-
-        # hit-rate threshold
-        hit_rate = hits / max(1, prof["nonempty"])
-        # require org-ish token unless hit-rate is very strong
-        if not has_orgish_token(colname_str) and hit_rate < 0.60:
-            return False
-
-        # basic floor
-        return hits >= max(5, int(0.30 * max(1, prof["nonempty"])))
-
-    # try top 12 candidates (scored already)
+    # Try the top scored candidates
     for (col_obj, colname_str) in candidate_org_cols(df)[:12]:
-        s = df[col_obj].astype(str)
-        prof = value_profile(s)
+        s_raw   = df[col_obj].astype(str)
+        s_clean = s_raw.map(clean_org_value)
+        prof    = value_profile(s_clean)
 
-        base_keys = s.map(norm_key)
-        mapped = base_keys.map(lambda k: org_lookup.get(k,""))
+        base_keys = s_clean.map(norm_key)
+        mapped = base_keys.map(lambda k: org_lookup.get(k, ""))
 
-        # domain fallback
         domains = email_series.astype(str).map(pick_domain)
-        mapped = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d,"")))
+        mapped = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d, "")))
 
         hits = int((mapped != "").sum())
-        tried.append((colname_str, hits, prof["nonempty"], prof["uniq"], round(prof["boolish_ratio"], 2)))
+        tried.append((str(colname_str).lower(), hits, prof["nonempty"], prof["uniq"], round(prof["boolish_ratio"], 2)))
 
         if hits > best_hits and acceptable(colname_str, hits, prof):
-            best_hits, best_col, best_series = hits, col_obj, s
+            best_hits, best_col, best_series = hits, col_obj, s_raw
 
-    # fallback: pick the first sensible name if threshold filtered everything
+    # Smarter fallback if nothing passed the gate
     if best_col is None:
+        skip_tokens = bad_name_tokens | {"phone","email","address","city","state","zip","report","purchase","domain report"}
+        cand = []
         for (col_obj, colname_str) in candidate_org_cols(df):
-            cl = colname_str.lower()
+            cl = str(colname_str).lower()
             if cl.startswith("unnamed:"): continue
-            if "report" in cl or "purchase" in cl or "domain report" in cl: continue
+            if any(t in cl for t in skip_tokens): continue
             if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): continue
-            if has_orgish_token(colname_str):
-                best_col = col_obj
-                best_series = df[col_obj].astype(str)
-                break
-        # absolute last resort: whatever is left
-        if best_col is None and len(df.columns) > 0:
-            best_col = list(df.columns)[0]
-            best_series = df[best_col].astype(str)
+            pr = value_profile(df[col_obj].astype(str).map(clean_org_value))
+            cand.append((col_obj, colname_str, pr))
 
-    print("ORG_COL_TRY:", tried[:3], "-> PICK:", str(best_col), "hits:", best_hits)
+        # 1) org-ish + high uniqueness
+        orgish = [(c, n, pr) for (c, n, pr) in cand
+                  if has_orgish_token(n) and pr["nonempty"]>=5 and pr["uniq"]>=5 and pr["boolish_ratio"]<0.2]
+        if orgish:
+            orgish.sort(key=lambda x: (x[2]["uniq"], x[2]["nonempty"]), reverse=True)
+            best_col = orgish[0][0]
+            best_series = df[best_col].astype(str).map(clean_org_value)
+        else:
+            # 2) any sensible high-uniqueness column
+            sensible = [(c, n, pr) for (c, n, pr) in cand
+                        if pr["nonempty"]>=5 and pr["uniq"]>=5 and pr["boolish_ratio"]<0.2]
+            if sensible:
+                sensible.sort(key=lambda x: (x[2]["uniq"], x[2]["nonempty"]), reverse=True)
+                best_col = sensible[0][0]
+                best_series = df[best_col].astype(str).map(clean_org_value)
+            else:
+                # 3) give up: return empty strings (avoid Unnamed:0 / Email, etc.)
+                best_col = None
+                best_series = pd.Series([""]*len(df))
+
+    print("ORG_COL_TRY:", tried[:3], "-> PICK:", (None if best_col is None else str(best_col)), "hits:", best_hits)
     return best_series
 
 
@@ -295,7 +350,8 @@ def main():
         complete  = col(df,"complete","completed","graduat","certificate","certified").astype(str)
 
         # name/alias mapping
-        base_keys = org_col.map(norm_key)
+        raw_org   = org_col.astype(str).map(clean_org_value)
+        base_keys = raw_org.map(norm_key)
         org_ids = base_keys.map(lambda k: org_lookup.get(k,""))
 
         # domain fallback
@@ -305,7 +361,8 @@ def main():
 
         # track unmatched org names (after both passes)
         for k, oid in zip(base_keys, org_ids):
-            if k and not oid: unmatched_orgs.add(k)
+            if k and not oid:
+                unmatched_orgs.add(k)
 
         # unmatched contacts (not in contacts master)
         for ek in email_col:
