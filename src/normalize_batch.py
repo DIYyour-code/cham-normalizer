@@ -24,18 +24,6 @@ def col(df,*keys):
         if any(k in c for k in keys): return df[m[c]]
     return pd.Series([""]*len(df))
 
-def classify(cols):
-    L = [str(c).lower() for c in cols]
-    score = {"attendance":0,"events":0,"certificates":0,"payments":0,"catalog":0}
-    for c in L:
-        if any(k in c for k in ["attend","roster","registrant","participant","seat"]): score["attendance"]+=1
-        if any(k in c for k in ["event","start","end","location","host","venue"]): score["events"]+=1
-        if any(k in c for k in ["cert","complete","graduat"]): score["certificates"]+=1
-        if any(k in c for k in ["order","payment","amount","txn","invoice"]): score["payments"]+=1
-        if any(k in c for k in ["course","training","catalog","code","ce hours","ceu"]): score["catalog"]+=1
-    return max(score, key=score.get)
-
-
 def read_csv_fast(p: Path):
     try:    return pd.read_csv(p, dtype=str).fillna("")
     except: return pd.read_csv(p, dtype=str, encoding="latin1").fillna("")
@@ -83,51 +71,128 @@ def build_contact_email_set(contacts_xlsx: Path):
 
 # ---------- org column chooser ----------
 def candidate_org_cols(df):
-    # Coerce ALL headers to strings; some Excel headers come in as datetimes/numbers
-    cols = [str(c) for c in df.columns]
-    L = [c.lower().strip() for c in cols]
+    """
+    Return original header objects ordered best-first.
+    Score on stringified names, but keep the real keys so df[col] works
+    even if the header is a Timestamp/number.
+    """
+    import re
+    # keep originals
+    orig_cols = list(df.columns)
+    # string forms for scoring
+    names = [str(c) for c in orig_cols]
+    lowers = [n.lower().strip() for n in names]
 
     bad_sub  = {"address","street","line1","line2","city","state","zip","postal","phone","fax"}
     good_any = {"organization","org","company","employer","sponsor","host","agency","dept","department"}
-
     scored = []
-    for c, cl in zip(cols, L):
+    for col_obj, cl in zip(orig_cols, lowers):
         score = 0
         if cl in {"organization","org"}: score += 100
         if any(g in cl for g in good_any): score += 25
         if any(b in cl for b in bad_sub): score -= 200
         if "email" in cl or "contact" in cl: score -= 50
-        if cl.startswith("unnamed:"): score -= 400  # strong penalty for unlabeled columns
-        scored.append((score, c))
-
-    # Highest score first
-    return [c for _, c in sorted(scored, reverse=True)]
+        if cl.startswith("unnamed:"): score -= 400
+        # date-like header? nuke its chances
+        if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl):
+            score -= 400
+        # generic titles that aren't columns
+        if "report" in cl or "purchase" in cl or "domain report" in cl:
+            score -= 300
+        scored.append((score, col_obj, cl))
+    # highest score first; return original header objects
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return [(col_obj, cl) for _, col_obj, cl in scored]
 
 
 def choose_best_org_series(df, email_series, org_lookup, domain_map):
+    import re
+
     def pick_domain(e):
         e = str(e).lower().strip()
         d = e.split("@")[-1] if "@" in e else ""
         return d[4:] if d.startswith("www.") else d
 
-    best_col = None
-    best_hits = -1
+    def value_profile(series: pd.Series):
+        s = series.astype(str).str.strip().str.lower()
+        nonempty = (s != "").sum()
+        if nonempty == 0:
+            return {"nonempty": 0, "uniq": 0, "boolish_ratio": 0.0}
+        # bool-ish tokens
+        boolish = {"y","yes","n","no","true","false","0","1","passed","not passed","pass","fail"}
+        bool_hits = s.isin(boolish).sum()
+        uniq = s[s != ""].nunique(dropna=True)
+        return {"nonempty": int(nonempty), "uniq": int(uniq), "boolish_ratio": float(bool_hits) / float(nonempty)}
+
+    def has_orgish_token(name: str):
+        cl = name.lower()
+        return any(t in cl for t in ["organization","org","company","employer","sponsor","agency","dept","department"])
+
+    best_col, best_hits = None, -1
     best_series = pd.Series([""]*len(df))
     tried = []
 
-    for c in candidate_org_cols(df)[:6]:
-        s = df[c].astype(str)
+    def acceptable(colname_str, hits, prof):
+        cl = colname_str.lower()
+
+        # drop obvious junk
+        if cl.startswith("unnamed:"): return False
+        if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): return False
+        if "report" in cl or "purchase" in cl or "domain report" in cl: return False
+
+        # value-based filter: too boolean-ish or too low-cardinality?
+        if prof["nonempty"] > 0:
+            if prof["boolish_ratio"] >= 0.6:   # mostly yes/no/true/false/etc.
+                return False
+            if prof["uniq"] <= 5 and prof["nonempty"] >= 20:  # suspiciously few unique values
+                return False
+
+        # hit-rate threshold
+        hit_rate = hits / max(1, prof["nonempty"])
+        # require org-ish token unless hit-rate is very strong
+        if not has_orgish_token(colname_str) and hit_rate < 0.60:
+            return False
+
+        # basic floor
+        return hits >= max(5, int(0.30 * max(1, prof["nonempty"])))
+
+    # try top 12 candidates (scored already)
+    for (col_obj, colname_str) in candidate_org_cols(df)[:12]:
+        s = df[col_obj].astype(str)
+        prof = value_profile(s)
+
         base_keys = s.map(norm_key)
         mapped = base_keys.map(lambda k: org_lookup.get(k,""))
+
+        # domain fallback
         domains = email_series.astype(str).map(pick_domain)
         mapped = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d,"")))
-        hits = (mapped != "").sum()
-        nonempty = (s.astype(str).str.strip() != "").sum()
-        tried.append((c, int(hits), int(nonempty)))
-        if hits > best_hits:
-            best_hits, best_col, best_series = hits, c, s
-    print("ORG_COL_TRY:", tried[:3], "-> PICK:", best_col, "hits:", best_hits)
+
+        hits = int((mapped != "").sum())
+        tried.append((colname_str, hits, prof["nonempty"], prof["uniq"], round(prof["boolish_ratio"], 2)))
+
+        if hits > best_hits and acceptable(colname_str, hits, prof):
+            best_hits, best_col, best_series = hits, col_obj, s
+
+    # fallback: pick the first sensible name if threshold filtered everything
+    if best_col is None:
+        for (col_obj, colname_str) in candidate_org_cols(df):
+            cl = colname_str.lower()
+            if cl.startswith("unnamed:"): continue
+            if "report" in cl or "purchase" in cl or "domain report" in cl: continue
+            if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): continue
+            if has_orgish_token(colname_str):
+                best_col = col_obj
+                best_series = df[col_obj].astype(str)
+                break
+        # absolute last resort: whatever is left
+        if best_col is None and len(df.columns) > 0:
+            best_col = list(df.columns)[0]
+            best_series = df[best_col].astype(str)
+
+    print("ORG_COL_TRY:", tried[:3], "-> PICK:", str(best_col), "hits:", best_hits)
     return best_series
+
 
 # ---------- main processing ----------
 def main():
@@ -200,7 +265,14 @@ def main():
         except Exception:
             continue
 
-        label = classify(df.columns)
+        label = max(
+            (("attendance",sum(k in str(c).lower() for k in ["attend","roster","registrant","participant","seat"])),
+             ("events",    sum(k in str(c).lower() for k in ["event","start","end","location","host","venue"])),
+             ("certificates",sum(k in str(c).lower() for k in ["cert","complete","graduat"])),
+             ("payments",  sum(k in str(c).lower() for k in ["order","payment","amount","txn","invoice"])),
+             ("catalog",   sum(k in str(c).lower() for k in ["course","training","catalog","code","ce hours","ceu"]))),
+            key=lambda x:x[1]
+        )[0]
 
         email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
         org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map)
