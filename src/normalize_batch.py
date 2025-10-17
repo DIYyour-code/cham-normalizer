@@ -24,6 +24,20 @@ def col(df,*keys):
         if any(k in c for k in keys): return df[m[c]]
     return pd.Series([""]*len(df))
 
+def pick_org_col(df):
+    # Score columns: prefer exact org/organization, penalize address-like
+    addr_bad = {"address","street","city","state","zip","postal","phone"}
+    scores = []
+    for c in df.columns:
+        cl = str(c).lower().strip()
+        score = 0
+        if cl in {"organization","org"}: score += 100
+        if "organization" in cl or cl == "org": score += 10
+        if any(b in cl for b in addr_bad): score -= 50
+        scores.append((score, c))
+    best = max(scores)[1]
+    return df[best]
+
 def classify(cols):
     L = [str(c).lower() for c in cols]
     score = {"attendance":0,"events":0,"certificates":0,"payments":0,"catalog":0}
@@ -74,6 +88,20 @@ def build_contact_email_set(contacts_xlsx: Path):
     email_col = next((c for c in df.columns if "email" in c.lower()), df.columns[0])
     return {e for e in df[email_col].astype(str).str.lower().str.strip() if e}
 
+def pick_org_col(df):
+    # Prefer exact org columns; penalize address-like columns
+    addr_bad = {"address","street","line1","line2","city","state","zip","postal","phone"}
+    best = None; best_score = -10**9
+    for c in df.columns:
+        cl = str(c).lower().strip()
+        score = 0
+        if cl in {"organization","org","employer","sponsor","host","agency","company"}: score += 100
+        if "organization" in cl or cl == "org": score += 20
+        if any(b in cl for b in addr_bad): score -= 200
+        if "contact" in cl or "email" in cl: score -= 50
+        if score > best_score: best_score, best = score, c
+    return df[best] if best is not None else pd.Series([""]*len(df))
+
 def process_files(files, org_lookup, contact_emails, csv_mode=False):
     catalog_rows, events_rows, attendance_rows, cert_rows, pay_rows = [], [], [], [], []
     unmatched_orgs, unmatched_contacts = set(), set()
@@ -88,7 +116,7 @@ def process_files(files, org_lookup, contact_emails, csv_mode=False):
             continue
 
         label = classify(df.columns)
-        org_col   = col(df,"organization","org","company","employer","sponsor","host","agency")
+        org_col   = pick_org_col(df)
         name_col  = col(df,"name","full name","attendee name","first name")
         last_col  = col(df,"last name","surname","lname")
         email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
