@@ -10,3 +10,8 @@ Put raw input files in `data/`. Then:
 python src/normalize_batch.py --csv-only
 # or Excel in chunks:
 python src/normalize_batch.py --start 0 --limit 25
+
+### Mystery Spreadsheet Audit
+Drop any `.csv`/`.xlsx` into `data/` (keep SSOT files in place). Then run:
+```bash
+make audit
