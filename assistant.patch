@@ -1,0 +1,102 @@
+*** a/src/normalize_batch.py
+--- b/src/normalize_batch.py
+@@
+-def build_org_lookup(canon_path: Path, alias_path: Path|None):
++def build_org_lookup(canon_path: Path, alias_path: Path|None):
+     canon = pd.read_csv(canon_path, dtype=str).fillna("")
+     lookup = {norm_key(r["Name (canonical)"]): r["org_id"] for _, r in canon.iterrows()}
+     if alias_path and alias_path.exists():
+         alias_df = pd.read_csv(alias_path, dtype=str).fillna("")
+-        for _, r in alias_df.iterrows():
+-            if r.get("Alias") and r.get("To Org (id)"):
+-                lookup[norm_key(r["Alias"])] = r["To Org (id)"]
++        # accept various header spellings
++        a_col = next((c for c in alias_df.columns if c.lower().strip() in {"alias","aliasname"}), None)
++        t_col = next((c for c in alias_df.columns if c.lower().strip() in {"to org (id)","winnerorgid","to_org_id"}), None)
++        if a_col and t_col:
++            for _, r in alias_df.iterrows():
++                a, t = r.get(a_col), r.get(t_col)
++                if a and t:
++                    lookup[norm_key(a)] = str(t).strip()
+     return lookup
+@@
+ def main():
+@@
+-    alias_path    = data_dir / "organization_aliases_master.csv"
++    alias_path    = data_dir / "organization_aliases_master.csv"
++    domain_path   = data_dir / "domain_to_org.csv"
++    parents_path  = data_dir / "org_parents.csv"
+@@
+-    org_lookup     = build_org_lookup(canon_path, alias_path if alias_path.exists() else None)
++    org_lookup     = build_org_lookup(canon_path, alias_path if alias_path.exists() else None)
+     contact_emails = build_contact_email_set(contacts_xlsx)
++
++    # Domain → OrgId map (lowercased domains)
++    domain_map = {}
++    if domain_path.exists():
++        ddf = pd.read_csv(domain_path, dtype=str).fillna("")
++        d_col = next((c for c in ddf.columns if c.lower() in {"domain","emaildomain","domainprimarynorm"}), None)
++        t_col = next((c for c in ddf.columns if c.lower() in {"to org (id)","winnerorgid","to_org_id"}), None)
++        if d_col and t_col:
++            domain_map = {str(d).lower().strip().removeprefix("www."): str(t).strip()
++                          for d,t in zip(ddf[d_col], ddf[t_col]) if str(d).strip() and str(t).strip()}
++
++    # Parent map: OrgId → ParentOrgId
++    parent_map = {}
++    if parents_path.exists():
++        pdf = pd.read_csv(parents_path, dtype=str).fillna("")
++        c_col = next((c for c in pdf.columns if c.lower() in {"org (id)","orgid"}), None)
++        p_col = next((c for c in pdf.columns if c.lower() in {"parent org (id)","parentorgid"}), None)
++        if c_col and p_col:
++            for _, r in pdf.iterrows():
++                cid, pid = str(r.get(c_col,"")).strip(), str(r.get(p_col,"")).strip()
++                if cid and pid: parent_map[cid] = pid
+@@
+-        org_ids = org_col.apply(norm_key).map(lambda k: org_lookup.get(k,""))
+-        for k, oid in zip(org_col.apply(norm_key), org_ids):
+-            if k and not oid: unmatched_orgs.add(k)
++        # 1) name/alias → OrgId
++        org_ids = org_col.apply(norm_key).map(lambda k: org_lookup.get(k,""))
++        # 2) domain fallback for missing
++        def pick_domain(e):
++            e = str(e).lower().strip()
++            return e.split("@")[-1] if "@" in e else ""
++        email_domains = email_col.map(pick_domain).str.removeprefix("www.")
++        domain_hits = email_domains.map(lambda d: domain_map.get(d,""))
++        org_ids = org_ids.mask(org_ids.eq(""), domain_hits)
++        # track truly unmatched names
++        for k, oid in zip(org_col.apply(norm_key), org_ids):
++            if k and not oid: unmatched_orgs.add(k)
+@@
+-        if label=="attendance":
++        if label=="attendance":
+             for fn, ln, em, oid, ev, st in zip(name_col, last_col, email_col, org_ids, event_col, status):
+                 full = norm_text(fn) or (f"{norm_text(fn)} {norm_text(ln)}").strip()
+-                attendance_rows.append({"external_id":hash_id(em,oid,ev,st),"Contact Email":norm_text(em),"Contact Name":full,"Organization (id)":oid,"Event Name":norm_text(ev),"Registration Status":norm_text(st)})
++                parent = parent_map.get(oid,"") if oid else ""
++                attendance_rows.append({
++                    "external_id":hash_id(em,oid,ev,st),
++                    "Contact Email":norm_text(em),
++                    "Contact Name":full,
++                    "Organization (id)":oid,
++                    "Parent Organization (id)":parent,
++                    "Event Name":norm_text(ev),
++                    "Registration Status":norm_text(st)
++                })
+@@
+-        elif label=="payments":
++        elif label=="payments":
+             for oid, amt, payer, tr in zip(col(df,"order id","order","invoice","id"), col(df,"amount","total","payment amount"), email_col, event_col):
+-                pay_rows.append({"external_id":hash_id(oid,payer,tr,amt),"Order/Invoice":norm_text(oid),"Amount":norm_text(amt),"Payer Email":norm_text(payer),"Event/Training":norm_text(tr)})
++                payer_domain = pick_domain(payer).removeprefix("www.")
++                payer_org = domain_map.get(payer_domain,"")
++                parent = parent_map.get(payer_org,"") if payer_org else ""
++                pay_rows.append({
++                    "external_id":hash_id(oid,payer,tr,amt),
++                    "Order/Invoice":norm_text(oid),
++                    "Amount":norm_text(amt),
++                    "Payer Email":norm_text(payer),
++                    "Payer Org (id)":payer_org,
++                    "Parent Organization (id)":parent,
++                    "Event/Training":norm_text(tr)
++                })

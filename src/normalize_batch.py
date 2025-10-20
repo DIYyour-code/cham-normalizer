@@ -110,6 +110,23 @@ def build_contact_email_set(contacts_xlsx: Path):
     email_col = next((c for c in df.columns if "email" in c.lower()), df.columns[0])
     return {e for e in df[email_col].astype(str).str.lower().str.strip() if e}
 
+def load_org_ignore(ignore_csv: Path):
+    """
+    Load a CSV of strings to ignore. Tries a few common column names.
+    Returns a set of normalized keys to ignore.
+    """
+    if not ignore_csv.exists():
+        return set()
+    df = pd.read_csv(ignore_csv, dtype=str).fillna("")
+    # accept a few possible headers
+    cands = [c for c in df.columns if c.strip().lower() in {"value","ignore","org_name","org"}]
+    col = cands[0] if cands else df.columns[0]
+    vals = df[col].astype(str)
+    # normalize same way we match orgs
+    return {norm_key(v) for v in vals if v.strip()}
+
+
+
 # ---------- org column chooser ----------
 def candidate_org_cols(df):
     """
@@ -157,7 +174,7 @@ def candidate_org_cols(df):
     return [(col_obj, cl) for _, col_obj, cl in scored]
 
 
-def choose_best_org_series(df, email_series, org_lookup, domain_map):
+def choose_best_org_series(df, email_series, org_lookup, domain_map, ignore_keys):
     import re
 
     def pick_domain(e):
@@ -213,11 +230,17 @@ def choose_best_org_series(df, email_series, org_lookup, domain_map):
         s_clean = s_raw.map(clean_org_value)
         prof    = value_profile(s_clean)
 
-        base_keys = s_clean.map(norm_key)
-        mapped = base_keys.map(lambda k: org_lookup.get(k, ""))
+        # normalize, then ignore (mask) values that are known garbage
+        base_keys   = s_clean.map(norm_key)
+        ignore_mask = base_keys.isin(ignore_keys)
+        if ignore_mask.any():
+            s_clean   = s_clean.mask(ignore_mask, "")
+            base_keys = base_keys.mask(ignore_mask, "")
 
+        # alias / domain mapping
+        mapped  = base_keys.map(lambda k: org_lookup.get(k, ""))
         domains = email_series.astype(str).map(pick_domain)
-        mapped = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d, "")))
+        mapped  = mapped.mask(mapped.eq(""), domains.map(lambda d: domain_map.get(d, "")))
 
         hits = int((mapped != "").sum())
         tried.append((str(colname_str).lower(), hits, prof["nonempty"], prof["uniq"], round(prof["boolish_ratio"], 2)))
@@ -234,7 +257,15 @@ def choose_best_org_series(df, email_series, org_lookup, domain_map):
             if cl.startswith("unnamed:"): continue
             if any(t in cl for t in skip_tokens): continue
             if re.match(r"^\d{4}-\d{2}-\d{2}", cl) or re.match(r"^\d{1,2}/\d{1,2}/\d{2,4}$", cl): continue
-            pr = value_profile(df[col_obj].astype(str).map(clean_org_value))
+
+            s_tmp = df[col_obj].astype(str).map(clean_org_value)
+            # apply ignore mask for scoring, too
+            base_tmp   = s_tmp.map(norm_key)
+            ignore_m   = base_tmp.isin(ignore_keys)
+            if ignore_m.any():
+                s_tmp = s_tmp.mask(ignore_m, "")
+            pr = value_profile(s_tmp)
+
             cand.append((col_obj, colname_str, pr))
 
         # 1) org-ish + high uniqueness
@@ -281,7 +312,9 @@ def main():
     alias_path    = data_dir / "organization_aliases_master.csv"
     domain_path   = data_dir / "domain_to_org.csv"
     parents_path  = data_dir / "org_parents.csv"
-
+    ignore_path = data_dir / "org_ignore.csv"
+    ignore_keys = load_org_ignore(ignore_path)
+    print(f"[ignore] loaded {len(ignore_keys)} keys from {ignore_path.name}")
     org_lookup     = build_org_lookup(canon_path, alias_path if alias_path.exists() else None)
     contact_emails = build_contact_email_set(contacts_xlsx)
 
@@ -335,7 +368,7 @@ def main():
         label = classify(df.columns)
 
         email_col = col(df,"email","e-mail","email address").astype(str).str.lower().str.strip()
-        org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map)
+        org_col   = choose_best_org_series(df, email_col, org_lookup, domain_map, ignore_keys)
         name_col  = col(df,"name","full name","attendee name","first name")
         last_col  = col(df,"last name","surname","lname")
         event_col = col(df,"event","course","training","session","class","title")
@@ -349,15 +382,29 @@ def main():
         desc      = col(df,"description","details","about","notes")
         complete  = col(df,"complete","completed","graduat","certificate","certified").astype(str)
 
-        # name/alias mapping
+                # name/alias mapping
         raw_org   = org_col.astype(str).map(clean_org_value)
         base_keys = raw_org.map(norm_key)
+
+        # drop anything in the ignore list (same normalization)
+        # after: base_keys = raw_org.map(norm_key)
+        mask_ignore = base_keys.isin(ignore_keys)
+        # add pattern-based ignores for machine-ish IDs (Stripe, etc.)
+        pattern_mask = base_keys.str.match(r'^(ch|pi|cus|txn|tok)_[a-z0-9]+$', na=False)
+        mask_ignore = mask_ignore | pattern_mask
+
+        if mask_ignore.any():
+            base_keys = base_keys.mask(mask_ignore, "")
+            raw_org   = raw_org.mask(mask_ignore, "")
+
+
         org_ids = base_keys.map(lambda k: org_lookup.get(k,""))
 
         # domain fallback
         email_domains = email_col.map(pick_domain)
         domain_hits = email_domains.map(lambda d: domain_map.get(d,""))
         org_ids = org_ids.mask(org_ids.eq(""), domain_hits)
+
 
         # track unmatched org names (after both passes)
         for k, oid in zip(base_keys, org_ids):

@@ -40,3 +40,10 @@ orgkit:
 # 9) wipe out/out/work extracted temp files (safe to keep normally)
 clean:
 	rm -rf out/work
+
+distclean:
+		rm -f out/cham_normalized_batchA_*.zip
+		rm -rf out/merged
+
+alias-suggest:
+			. .venv/bin/activate && python src/suggest_alias_rules.py
