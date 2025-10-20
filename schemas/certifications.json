@@ -1,0 +1,86 @@
+{
+  "entity": "Certifications",
+  "primary_key": "certification_id",
+  "fields": [
+    {
+      "standard_name": "cham_grad_year",
+      "source_names": [
+        "CHAM Grad Year"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "ams_grad_year",
+      "source_names": [
+        "AMS Grad Year"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "ams_gradcat",
+      "source_names": [
+        "AMS GradCat"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "cham_gradcat",
+      "source_names": [
+        "CHAM GradCat"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Legacy CHAM - 07; NewCHAM: __--18"
+    },
+    {
+      "standard_name": "have_you_earned_the_asset_management_specialist_designation_from_cham?",
+      "source_names": [
+        "Have you earned the Asset Management Specialist designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Yes; Yes; No"
+    },
+    {
+      "standard_name": "have_you_earned_the_certified_housing_asset_manager_designation_from_cham?",
+      "source_names": [
+        "Have you earned the Certified Housing Asset Manager designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Yes; Yes; Yes"
+    },
+    {
+      "standard_name": "role:_child_have_you_earned_the_asset_management_specialist_designation_from_cham?",
+      "source_names": [
+        "Role: Child Have you earned the Asset Management Specialist designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_have_you_earned_the_certified_housing_asset_manager_designation_from_cham?",
+      "source_names": [
+        "Role: Child Have you earned the Certified Housing Asset Manager designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_have_you_earned_the_asset_management_specialist_designation_from_cham?",
+      "source_names": [
+        "Role: Parent Have you earned the Asset Management Specialist designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_have_you_earned_the_certified_housing_asset_manager_designation_from_cham?",
+      "source_names": [
+        "Role: Parent Have you earned the Certified Housing Asset Manager designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    }
+  ]
+}

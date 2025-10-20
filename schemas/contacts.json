@@ -1,0 +1,2318 @@
+{
+  "entity": "Contacts",
+  "primary_key": "contact_id",
+  "fields": [
+    {
+      "standard_name": "fullname",
+      "source_names": [
+        "FullName"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Alexander Careem; Ashlee E. Areostatico; Beer Nachum"
+    },
+    {
+      "standard_name": "name",
+      "source_names": [
+        "Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Zan Zettler; Zulma Zayas; Zoe Weinrobe"
+    },
+    {
+      "standard_name": "primary_email",
+      "source_names": [
+        "Primary Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: zzettler@downstreet.org; zzayas170@gmail.com; zweinrobe@2lifecommunities.org"
+    },
+    {
+      "standard_name": "primary_phone",
+      "source_names": [
+        "Primary Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (803) 220-6715; 1-646-590-8591; (617) 912-8406"
+    },
+    {
+      "standard_name": "city",
+      "source_names": [
+        "City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Barre; Washington DC; Boston"
+    },
+    {
+      "standard_name": "state_province",
+      "source_names": [
+        "State/Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Vermont; District of Columbia; Massachusetts"
+    },
+    {
+      "standard_name": "contact_prefix",
+      "source_names": [
+        "Contact Prefix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_first_name",
+      "source_names": [
+        "Contact First Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nancy; David; Nancy"
+    },
+    {
+      "standard_name": "contact_middle_name",
+      "source_names": [
+        "Contact Middle Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_last_name",
+      "source_names": [
+        "Contact Last Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Hall; Fromm; Hall"
+    },
+    {
+      "standard_name": "contact_suffix",
+      "source_names": [
+        "Contact Suffix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_common_name",
+      "source_names": [
+        "Contact Common Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_title",
+      "source_names": [
+        "Contact Title"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Senior Manager; Director of Asset Management and New Business; Westgate - Community Director"
+    },
+    {
+      "standard_name": "contact_membership_status",
+      "source_names": [
+        "Contact Membership Status"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Non Member; Dropped; Non Member"
+    },
+    {
+      "standard_name": "contact_name",
+      "source_names": [
+        "Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nancy Hall; David Fromm; Nancy Hall"
+    },
+    {
+      "standard_name": "contact_designations",
+      "source_names": [
+        "Contact Designations"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_designations_dates_earned",
+      "source_names": [
+        "Contact Designations Dates Earned"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_balance",
+      "source_names": [
+        "Contact Balance"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "contact_type",
+      "source_names": [
+        "Contact Type"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Individual; Individual; Individual"
+    },
+    {
+      "standard_name": "contact_notes",
+      "source_names": [
+        "Contact Notes"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: David is no longer with NW; Contact merge performed on: 7/13/2023 6:18:43 PM\nMerge results from cont"
+    },
+    {
+      "standard_name": "contactid",
+      "source_names": [
+        "ContactId"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163393; 14162345; 14163401"
+    },
+    {
+      "standard_name": "default_email",
+      "source_names": [
+        "Default Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 501csolutions@comcast.net; davidfromm@comcast.net; nancyfhall@comcast.net"
+    },
+    {
+      "standard_name": "default_email_cc_address",
+      "source_names": [
+        "Default Email CC Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "do_not_contact",
+      "source_names": [
+        "Do Not Contact"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "transactional_emails_only",
+      "source_names": [
+        "Transactional Emails Only"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 1"
+    },
+    {
+      "standard_name": "default_phone",
+      "source_names": [
+        "Default Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (402) 758-1492; (802) 490-0780; (617) 784-3349"
+    },
+    {
+      "standard_name": "primary_contact_name",
+      "source_names": [
+        "Primary/Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NP DodgeManagement Company; Windham & Windsor Housing Trust; Madison Park Development Corporation"
+    },
+    {
+      "standard_name": "contact_gender",
+      "source_names": [
+        "Contact Gender"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Male"
+    },
+    {
+      "standard_name": "primary_contact_name",
+      "source_names": [
+        "Primary Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_prefix",
+      "source_names": [
+        "Primary Contact Prefix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_first_name",
+      "source_names": [
+        "Primary Contact First Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_middle_name",
+      "source_names": [
+        "Primary Contact Middle Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_last_name",
+      "source_names": [
+        "Primary Contact Last Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_suffix",
+      "source_names": [
+        "Primary Contact Suffix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_common_name",
+      "source_names": [
+        "Primary Contact Common Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_title",
+      "source_names": [
+        "Primary Contact Title"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_email",
+      "source_names": [
+        "Primary Business Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_webaddress",
+      "source_names": [
+        "Primary Business WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_phone",
+      "source_names": [
+        "Primary Business Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_address_1",
+      "source_names": [
+        "Primary Business Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 8701 W Dodge Rd Ste; 68 Birge Street; 184 Dudley Street"
+    },
+    {
+      "standard_name": "primary_business_address_2",
+      "source_names": [
+        "Primary Business Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: STE 120"
+    },
+    {
+      "standard_name": "primary_business_city",
+      "source_names": [
+        "Primary Business City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha; Brattleboro; Roxbury"
+    },
+    {
+      "standard_name": "primary_business_state_province",
+      "source_names": [
+        "Primary Business State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nebraska; VT; MA"
+    },
+    {
+      "standard_name": "primary_contact_email",
+      "source_names": [
+        "Primary Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_webaddress",
+      "source_names": [
+        "Primary Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_phone",
+      "source_names": [
+        "Primary Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_firstfax",
+      "source_names": [
+        "Primary Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_address_1",
+      "source_names": [
+        "Primary Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_address_2",
+      "source_names": [
+        "Primary Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_city",
+      "source_names": [
+        "Primary Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_state_province",
+      "source_names": [
+        "Primary Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_postal",
+      "source_names": [
+        "Primary Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_country",
+      "source_names": [
+        "Primary Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_account_number",
+      "source_names": [
+        "Primary Contact Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_id",
+      "source_names": [
+        "Primary Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_designations",
+      "source_names": [
+        "Primary Contact Designations"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_designations_dates_earned",
+      "source_names": [
+        "Primary Contact Designations Dates Earned"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contactid__dup2",
+      "source_names": [
+        "ContactId__dup2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163393; 14162345; 14163401"
+    },
+    {
+      "standard_name": "default_address_1",
+      "source_names": [
+        "Default Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 52 Grenwold Road; 1550 Blue Spruce Dr; 3380 W Americana Ter Ste 120"
+    },
+    {
+      "standard_name": "default_address_2",
+      "source_names": [
+        "Default Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "default_city",
+      "source_names": [
+        "Default City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha; Brattleboro; Quincy"
+    },
+    {
+      "standard_name": "default_state_province",
+      "source_names": [
+        "Default State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nebraska; VT; MA"
+    },
+    {
+      "standard_name": "bill_address_1",
+      "source_names": [
+        "Bill Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "bill_address_2",
+      "source_names": [
+        "Bill Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "bill_city",
+      "source_names": [
+        "Bill City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "bill_state_province",
+      "source_names": [
+        "Bill State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "email_lists",
+      "source_names": [
+        "Email Lists"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Constant Contact SYNC; Email Failures,Constant Contact SYNC; Constant Contact SYNC"
+    },
+    {
+      "standard_name": "main_phone",
+      "source_names": [
+        "Main Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "toll_free_phone",
+      "source_names": [
+        "Toll Free Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "personal_phone",
+      "source_names": [
+        "Personal Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "cell_phone",
+      "source_names": [
+        "Cell Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "fax_phone",
+      "source_names": [
+        "Fax Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "emergency_phone",
+      "source_names": [
+        "Emergency Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "home_phone",
+      "source_names": [
+        "Home Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "work_phone",
+      "source_names": [
+        "Work Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (402) 758-1492; (802) 490-0780; (617) 784-3349"
+    },
+    {
+      "standard_name": "other_phone",
+      "source_names": [
+        "Other Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "other_email_address",
+      "source_names": [
+        "Other Email Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "work_email_address",
+      "source_names": [
+        "Work Email Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 501csolutions@comcast.net; nancyfhall@comcast.net; ron.price@npdodge.com"
+    },
+    {
+      "standard_name": "personal_email_address",
+      "source_names": [
+        "Personal Email Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: davidfromm@comcast.net"
+    },
+    {
+      "standard_name": "mailing_address_1",
+      "source_names": [
+        "Mailing Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 52 Grenwold Road; 1550 Blue Spruce Dr; 3380 W Americana Ter Ste 120"
+    },
+    {
+      "standard_name": "mailing_address_2",
+      "source_names": [
+        "Mailing Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "mailing_city",
+      "source_names": [
+        "Mailing City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha; Brattleboro; Quincy"
+    },
+    {
+      "standard_name": "mailing_state_province",
+      "source_names": [
+        "Mailing State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nebraska; VT; MA"
+    },
+    {
+      "standard_name": "physical_address_1",
+      "source_names": [
+        "Physical Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 52 Grenwold Road; 1550 Blue Spruce Dr; 3380 W Americana Ter Ste 120"
+    },
+    {
+      "standard_name": "physical_address_2",
+      "source_names": [
+        "Physical Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "physical_city",
+      "source_names": [
+        "Physical City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha; Brattleboro; Quincy"
+    },
+    {
+      "standard_name": "physical_state_province",
+      "source_names": [
+        "Physical State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nebraska; VT; MA"
+    },
+    {
+      "standard_name": "primary_contact_category:_all_business_category",
+      "source_names": [
+        "Primary Contact Category: All Business Category"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Government; Nonprofit; Nonprofit"
+    },
+    {
+      "standard_name": "brp_contact_address_1",
+      "source_names": [
+        "BRP Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_address_2",
+      "source_names": [
+        "BRP Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_city",
+      "source_names": [
+        "BRP Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_commonname",
+      "source_names": [
+        "BRP Contact CommonName"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_country",
+      "source_names": [
+        "BRP Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_email",
+      "source_names": [
+        "BRP Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_first_name",
+      "source_names": [
+        "BRP Contact First Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_firstfax",
+      "source_names": [
+        "BRP Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_id",
+      "source_names": [
+        "BRP Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_last_name",
+      "source_names": [
+        "BRP Contact Last Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_middle_name",
+      "source_names": [
+        "BRP Contact Middle Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_name",
+      "source_names": [
+        "BRP Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_phone",
+      "source_names": [
+        "BRP Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_postal",
+      "source_names": [
+        "BRP Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_prefix",
+      "source_names": [
+        "BRP Contact Prefix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_state_province",
+      "source_names": [
+        "BRP Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_suffix",
+      "source_names": [
+        "BRP Contact Suffix"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_title",
+      "source_names": [
+        "BRP Contact Title"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "brp_contact_webaddress",
+      "source_names": [
+        "BRP Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contactid__dup3",
+      "source_names": [
+        "ContactId__dup3"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163393; 14162345; 14163401"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_name",
+      "source_names": [
+        "Primary Contact's Primary Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Ron Price; Elizabeth Bridgewater; Andrew Kerivan"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_address_1",
+      "source_names": [
+        "Primary Contact's Primary Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 52 Grenwold Road; 1550 Blue Spruce Dr; 88 E Broad St Ste 1800"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_address_2",
+      "source_names": [
+        "Primary Contact's Primary Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_city",
+      "source_names": [
+        "Primary Contact's Primary Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha; Brattleboro; Quincy"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_country",
+      "source_names": [
+        "Primary Contact's Primary Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: United States"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_postal_code",
+      "source_names": [
+        "Primary Contact's Primary Contact Postal Code"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 68114.0; 5301.0; 2169.0"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_email",
+      "source_names": [
+        "Primary Contact's Primary Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: ron.price@npdodge.com; ebridgewater@homemattershere.org; kerivan.andrew@gmail.com"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_phone",
+      "source_names": [
+        "Primary Contact's Primary Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (402) 758-1492; (802) 246-2109; (617) 784-3349"
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_cell_phones",
+      "source_names": [
+        "Primary Contact's Primary Contact Cell Phones"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact's_primary_contact_full_address",
+      "source_names": [
+        "Primary Contact's Primary Contact Full Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Omaha, Nebraska, 68114; Brattleboro, VT, 05301; 52 Grenwold Road, Quincy, MA, 02169, United States"
+    },
+    {
+      "standard_name": "race_ethnicity",
+      "source_names": [
+        "Race/Ethnicity"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: White, not of Hispanic Origin; White, not of Hispanic Origin"
+    },
+    {
+      "standard_name": "your_organization's_primary_real_estate_role",
+      "source_names": [
+        "Your organization's primary real estate role"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Real Estate Developer / Owner (Nonprofit); Real Estate Developer / Owner (Nonprofit)"
+    },
+    {
+      "standard_name": "child_name",
+      "source_names": [
+        "Child Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_e-mail_address",
+      "source_names": [
+        "Role: Child E-mail Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_default_phone",
+      "source_names": [
+        "Role: Child Default Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_address_1",
+      "source_names": [
+        "Role: Child Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_address_2",
+      "source_names": [
+        "Role: Child Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_city",
+      "source_names": [
+        "Role: Child City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_stateprovince",
+      "source_names": [
+        "Role: Child StateProvince"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_primary_contact_first_name",
+      "source_names": [
+        "Role: Child Primary Contact First Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_primary_contact_last_name",
+      "source_names": [
+        "Role: Child Primary Contact Last Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_race_ethnicity",
+      "source_names": [
+        "Role: Child Race/Ethnicity"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_your_organization's_primary_real_estate_role",
+      "source_names": [
+        "Role: Child Your organization's primary real estate role"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_name",
+      "source_names": [
+        "Parent Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_e-mail_address",
+      "source_names": [
+        "Role: Parent E-mail Address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_default_phone",
+      "source_names": [
+        "Role: Parent Default Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_address_1",
+      "source_names": [
+        "Role: Parent Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_address_2",
+      "source_names": [
+        "Role: Parent Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_city",
+      "source_names": [
+        "Role: Parent City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_stateprovince",
+      "source_names": [
+        "Role: Parent StateProvince"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_race_ethnicity",
+      "source_names": [
+        "Role: Parent Race/Ethnicity"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_your_organization's_primary_real_estate_role",
+      "source_names": [
+        "Role: Parent Your organization's primary real estate role"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contactid__dup4",
+      "source_names": [
+        "ContactId__dup4"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163393; 14162345; 14163401"
+    },
+    {
+      "standard_name": "primary_contact_gender_pronouns",
+      "source_names": [
+        "Primary Contact Gender Pronouns"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_pronouns",
+      "source_names": [
+        "Primary Contact Pronouns"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_race_ethnicity",
+      "source_names": [
+        "Primary Contact Race/Ethnicity"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_age",
+      "source_names": [
+        "Primary Contact Age"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_gender_expression",
+      "source_names": [
+        "Primary Contact Gender Expression"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_what_type_of_organization_do_you_work_for?",
+      "source_names": [
+        "Primary Contact What type of organization do you work for?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_what_is_your_primary_role?",
+      "source_names": [
+        "Primary Contact What is YOUR primary role?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_is_your_position_primarily_focused_on_asset_management?",
+      "source_names": [
+        "Primary Contact Is your position primarily focused on Asset Management?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_your_organization's_primary_real_estate_role",
+      "source_names": [
+        "Primary Contact Your organization's primary real estate role"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_have_you_earned_the_asset_management_specialist_designation_from_cham?",
+      "source_names": [
+        "Primary Contact Have you earned the Asset Management Specialist designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_have_you_earned_the_certified_housing_asset_manager_designation_from_cham?",
+      "source_names": [
+        "Primary Contact Have you earned the Certified Housing Asset Manager designation from CHAM?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_web_links",
+      "source_names": [
+        "Primary Contact Web Links"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_full-time_employees",
+      "source_names": [
+        "Primary Contact Full-Time Employees"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_part-time_employees",
+      "source_names": [
+        "Primary Contact Part-Time Employees"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "organization_primary_contact_age",
+      "source_names": [
+        "Organization Primary Contact Age"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "organization_primary_contact_gender_expression",
+      "source_names": [
+        "Organization Primary Contact Gender Expression"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_is_your_organization's_focus_on_asset_management?",
+      "source_names": [
+        "Primary Contact Is your organization's focus on Asset Management?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_name",
+      "source_names": [
+        "Parent Org Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_email",
+      "source_names": [
+        "Parent Org Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_webaddress",
+      "source_names": [
+        "Parent Org WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_phone",
+      "source_names": [
+        "Parent Org Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_address_1",
+      "source_names": [
+        "Parent Org Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_address_2",
+      "source_names": [
+        "Parent Org Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_city",
+      "source_names": [
+        "Parent Org City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_state_province",
+      "source_names": [
+        "Parent Org State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_names_for_parent_org",
+      "source_names": [
+        "Contact Names for Parent Org"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_email",
+      "source_names": [
+        "Parent Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_webaddress",
+      "source_names": [
+        "Parent Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_phone",
+      "source_names": [
+        "Parent Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_firstfax",
+      "source_names": [
+        "Parent Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_address_1",
+      "source_names": [
+        "Parent Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_address_2",
+      "source_names": [
+        "Parent Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_city",
+      "source_names": [
+        "Parent Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_state_province",
+      "source_names": [
+        "Parent Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_postal",
+      "source_names": [
+        "Parent Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_country",
+      "source_names": [
+        "Parent Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_account_number",
+      "source_names": [
+        "Parent Contact Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_id",
+      "source_names": [
+        "Parent Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_contact_title",
+      "source_names": [
+        "Parent Contact Title"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_relationship_type",
+      "source_names": [
+        "Contact Relationship Type"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_name",
+      "source_names": [
+        "Child Org Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_primary_contact_name",
+      "source_names": [
+        "Child Org Primary Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_primary_contact_first_name",
+      "source_names": [
+        "Child Org Primary Contact First Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_primary_contact_last_name",
+      "source_names": [
+        "Child Org Primary Contact Last Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_email",
+      "source_names": [
+        "Child Org Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_webaddress",
+      "source_names": [
+        "Child Org WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_phone",
+      "source_names": [
+        "Child Org Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_address_1",
+      "source_names": [
+        "Child Org Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_address_2",
+      "source_names": [
+        "Child Org Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_city",
+      "source_names": [
+        "Child Org City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_state_province",
+      "source_names": [
+        "Child Org State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "contact_names_for_child_org",
+      "source_names": [
+        "Contact Names for Child Org"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_email",
+      "source_names": [
+        "Child Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_webaddress",
+      "source_names": [
+        "Child Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_phone",
+      "source_names": [
+        "Child Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_firstfax",
+      "source_names": [
+        "Child Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_address_1",
+      "source_names": [
+        "Child Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_address_2",
+      "source_names": [
+        "Child Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_city",
+      "source_names": [
+        "Child Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_state_province",
+      "source_names": [
+        "Child Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_postal",
+      "source_names": [
+        "Child Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_country",
+      "source_names": [
+        "Child Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_account_number",
+      "source_names": [
+        "Child Contact Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_id",
+      "source_names": [
+        "Child Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_contact_title",
+      "source_names": [
+        "Child Contact Title"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "account_username",
+      "source_names": [
+        "Account Username"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: rprice@npdodge.com; kerivan.andrew@gmail.com; jmaeda@n2n.org"
+    },
+    {
+      "standard_name": "account_email",
+      "source_names": [
+        "Account Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: acasto@ohiohome.org; aaron.toneys@svdp.us; amyers@apah.org"
+    },
+    {
+      "standard_name": "default_email__dup3",
+      "source_names": [
+        "Default Email__dup3"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: info@chamonline.org"
+    },
+    {
+      "standard_name": "unnamed:_1",
+      "source_names": [
+        "Unnamed: 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: CAHEC; Cinnaire; Evernorth"
+    },
+    {
+      "standard_name": "unnamed:_0",
+      "source_names": [
+        "Unnamed: 0"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "unnamed:_2",
+      "source_names": [
+        "Unnamed: 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "unnamed:_3",
+      "source_names": [
+        "Unnamed: 3"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Pcode; 8494; 8520"
+    },
+    {
+      "standard_name": "unnamed:_4",
+      "source_names": [
+        "Unnamed: 4"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Organization Name; Aeon; Better Family Life, Inc."
+    },
+    {
+      "standard_name": "unnamed:_5",
+      "source_names": [
+        "Unnamed: 5"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Doing Business As; Homeport; NeighborWorks Home Partners"
+    },
+    {
+      "standard_name": "unnamed:_6",
+      "source_names": [
+        "Unnamed: 6"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Relationship Manager; Andre Butler; Melford Ferguson"
+    },
+    {
+      "standard_name": "unnamed:_7",
+      "source_names": [
+        "Unnamed: 7"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Primary State/Province; MN; MO"
+    },
+    {
+      "standard_name": "unnamed:_8",
+      "source_names": [
+        "Unnamed: 8"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Relationship Manager Email; atbutler@nw.org; mferguson@nw.org"
+    },
+    {
+      "standard_name": "table_name",
+      "source_names": [
+        "table_name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Organizations; Organizations; Organizations"
+    },
+    {
+      "standard_name": "field_name",
+      "source_names": [
+        "field_name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: external_id; Name (canonical); Domain"
+    },
+    {
+      "standard_name": "unnamed:_12",
+      "source_names": [
+        "Unnamed: 12"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2024; 20,000; 10,000"
+    },
+    {
+      "standard_name": "unnamed:_13",
+      "source_names": [
+        "Unnamed: 13"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2023.0; 20000.0; 10000.0"
+    },
+    {
+      "standard_name": "unnamed:_14",
+      "source_names": [
+        "Unnamed: 14"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2022; 20,000; 5,000"
+    },
+    {
+      "standard_name": "unnamed:_15",
+      "source_names": [
+        "Unnamed: 15"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2021; 20,000; 5,000"
+    },
+    {
+      "standard_name": "unnamed:_16",
+      "source_names": [
+        "Unnamed: 16"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2020; 20,000; 5,000"
+    },
+    {
+      "standard_name": "unnamed:_17",
+      "source_names": [
+        "Unnamed: 17"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2019; 20,000; 2,500"
+    },
+    {
+      "standard_name": "unnamed:_18",
+      "source_names": [
+        "Unnamed: 18"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "unnamed:_19",
+      "source_names": [
+        "Unnamed: 19"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "unnamed:_9",
+      "source_names": [
+        "Unnamed: 9"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Course Provider; CHAM; Neighborworks"
+    },
+    {
+      "standard_name": "unnamed:_10",
+      "source_names": [
+        "Unnamed: 10"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "unnamed:_11",
+      "source_names": [
+        "Unnamed: 11"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Venue; IN PERSON; ONLINE"
+    },
+    {
+      "standard_name": "membership_billing_contact_name",
+      "source_names": [
+        "Membership Billing Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Priti Saldanha; Linda Weisinger; Keona Jones"
+    },
+    {
+      "standard_name": "membership_billing_contact_email",
+      "source_names": [
+        "Membership Billing Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: priti.saldanha@acacianetwork.org; lweisinger@pcfdevelopment.org; keona@historichillscdc.com"
+    },
+    {
+      "standard_name": "membership_billing_contact_webaddress",
+      "source_names": [
+        "Membership Billing Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_billing_contact_phone",
+      "source_names": [
+        "Membership Billing Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (646) 761-3037; 401-726-1173 x.14; (678) 683-8946"
+    },
+    {
+      "standard_name": "membership_billing_contact_firstfax",
+      "source_names": [
+        "Membership Billing Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_billing_contact_address_1",
+      "source_names": [
+        "Membership Billing Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 300 E 175th St,; 2193 Verbena Street; 6 Cass Rd"
+    },
+    {
+      "standard_name": "membership_billing_contact_address_2",
+      "source_names": [
+        "Membership Billing Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_billing_contact_city",
+      "source_names": [
+        "Membership Billing Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Bronx; Pawtucket; Atlanta"
+    },
+    {
+      "standard_name": "membership_billing_contact_state_province",
+      "source_names": [
+        "Membership Billing Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: New York; Rhode Island; Georgia"
+    },
+    {
+      "standard_name": "membership_billing_contact_postal",
+      "source_names": [
+        "Membership Billing Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 10457; 02860; 30314"
+    },
+    {
+      "standard_name": "membership_billing_contact_country",
+      "source_names": [
+        "Membership Billing Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: United States"
+    },
+    {
+      "standard_name": "membership_billing_contact_account_number",
+      "source_names": [
+        "Membership Billing Contact Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 60857509.0; 51740679.0; 62432112.0"
+    },
+    {
+      "standard_name": "membership_billing_contact_id",
+      "source_names": [
+        "Membership Billing Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163630.0; 14163775.0; 14162872.0"
+    },
+    {
+      "standard_name": "membership_primary_contact_name",
+      "source_names": [
+        "Membership Primary Contact Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Priti Saldanha; Linda Weisinger; Keona Jones"
+    },
+    {
+      "standard_name": "membership_primary_contact_email",
+      "source_names": [
+        "Membership Primary Contact Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: priti.saldanha@acacianetwork.org; lweisinger@pcfdevelopment.org; keona@historichillscdc.com"
+    },
+    {
+      "standard_name": "membership_primary_contact_webaddress",
+      "source_names": [
+        "Membership Primary Contact WebAddress"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_primary_contact_phone",
+      "source_names": [
+        "Membership Primary Contact Phone"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: (646) 761-3037; 401-726-1173 x.14; (678) 683-8946"
+    },
+    {
+      "standard_name": "membership_primary_contact_firstfax",
+      "source_names": [
+        "Membership Primary Contact FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_primary_contact_address_1",
+      "source_names": [
+        "Membership Primary Contact Address 1"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 300 E 175th St,; 2193 Verbena Street; 6 Cass Rd"
+    },
+    {
+      "standard_name": "membership_primary_contact_address_2",
+      "source_names": [
+        "Membership Primary Contact Address 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "membership_primary_contact_city",
+      "source_names": [
+        "Membership Primary Contact City"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Bronx; Pawtucket; Atlanta"
+    },
+    {
+      "standard_name": "membership_primary_contact_state_province",
+      "source_names": [
+        "Membership Primary Contact State Province"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: New York; Rhode Island; Georgia"
+    },
+    {
+      "standard_name": "membership_primary_contact_postal",
+      "source_names": [
+        "Membership Primary Contact Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 10457; 02860; 30314"
+    },
+    {
+      "standard_name": "membership_primary_contact_country",
+      "source_names": [
+        "Membership Primary Contact Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: United States"
+    },
+    {
+      "standard_name": "membership_primary_contact_account_number",
+      "source_names": [
+        "Membership Primary Contact Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 60857509.0; 51740679.0; 62432112.0"
+    },
+    {
+      "standard_name": "membership_primary_contact_id",
+      "source_names": [
+        "Membership Primary Contact Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14163630.0; 14163775.0; 14162872.0"
+    },
+    {
+      "standard_name": "referred_by_contact",
+      "source_names": [
+        "Referred By Contact"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_contact_name_(2)",
+      "source_names": [
+        "Primary/Contact Name (2)"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Community Action Partnership of North Alabama; Green Country Habitat for Humanity; Green Country Hab"
+    },
+    {
+      "standard_name": "event_name",
+      "source_names": [
+        "Event Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Conference 2023; CHAM Happy Hour: Chicago Edition; CHAM Washington Report"
+    },
+    {
+      "standard_name": "contact",
+      "source_names": [
+        "Contact"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Anna Kaydanovskaya; Rebecca Mautner; Josie Curtin"
+    },
+    {
+      "standard_name": "state",
+      "source_names": [
+        "State"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Virginia"
+    },
+    {
+      "standard_name": "tax_set_name",
+      "source_names": [
+        "Tax Set Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "account_name",
+      "source_names": [
+        "Account Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Accounts Receivable; Membership Dues Type A; Accounts Receivable"
+    },
+    {
+      "standard_name": "attendee_name",
+      "source_names": [
+        "Attendee Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Tiernan Dolan; Sharon Spengler; mary hillsman"
+    },
+    {
+      "standard_name": "attendee_email",
+      "source_names": [
+        "Attendee Email"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: tdolan@hacityventura.org; Sharon.Spengler@wheda.com; mhillsman@voa.org"
+    },
+    {
+      "standard_name": "zip_code",
+      "source_names": [
+        "Zip Code"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 93001.0; 22314.0; 34212.0"
+    },
+    {
+      "standard_name": "email_address",
+      "source_names": [
+        "Email address"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: alexpropman@yahoo.com; abrockway@thirtycapital.com; syed.yarmohammad@rrha.com"
+    },
+    {
+      "standard_name": "first_name",
+      "source_names": [
+        "First name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Kalvin; Aynsley; Syed"
+    },
+    {
+      "standard_name": "last_name",
+      "source_names": [
+        "Last name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Alexander; Finlay; Terry"
+    },
+    {
+      "standard_name": "email_status",
+      "source_names": [
+        "Email status"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Active; Active; Active"
+    },
+    {
+      "standard_name": "email_permission_status",
+      "source_names": [
+        "Email permission status"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Express; Implied; Express"
+    },
+    {
+      "standard_name": "phone_-_home",
+      "source_names": [
+        "Phone - home"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "phone_-_other",
+      "source_names": [
+        "Phone - other"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 7044915949.0; 6056987654.0"
+    },
+    {
+      "standard_name": "phone_-_work",
+      "source_names": [
+        "Phone - work"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 7044915949.0; 6056987654.0"
+    },
+    {
+      "standard_name": "phone_-_work_2",
+      "source_names": [
+        "Phone - work 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "street_address_line_1_-_home",
+      "source_names": [
+        "Street address line 1 - Home"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2600 Victory Parkway; 220 East 42nd Street"
+    },
+    {
+      "standard_name": "city_-_home",
+      "source_names": [
+        "City - Home"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Cincinnati; New York"
+    },
+    {
+      "standard_name": "state_province_-_home",
+      "source_names": [
+        "State/Province - Home"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: OH; NY"
+    },
+    {
+      "standard_name": "zip_postal_code_-_home",
+      "source_names": [
+        "Zip/Postal Code - Home"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "street_address_line_1_-_work",
+      "source_names": [
+        "Street address line 1 - Work"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "city_-_work",
+      "source_names": [
+        "City - Work"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "state_province_-_work",
+      "source_names": [
+        "State/Province - Work"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "zip_postal_code_-_work",
+      "source_names": [
+        "Zip/Postal Code - Work"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "street_address_line_1_-_work_2",
+      "source_names": [
+        "Street address line 1 - Work 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "city_-_work_2",
+      "source_names": [
+        "City - Work 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "state_province_-_work_2",
+      "source_names": [
+        "State/Province - Work 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "zip_postal_code_-_work_2",
+      "source_names": [
+        "Zip/Postal Code - Work 2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "source_name",
+      "source_names": [
+        "Source Name"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Other app; Other app; Other app"
+    }
+  ]
+}

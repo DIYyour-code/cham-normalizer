@@ -1,0 +1,54 @@
+{
+  "entity": "Courses",
+  "primary_key": "course_id",
+  "fields": [
+    {
+      "standard_name": "course_number",
+      "source_names": [
+        "Course Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: AMS; 121; 290"
+    },
+    {
+      "standard_name": "course",
+      "source_names": [
+        "Course"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 121; 290; 291"
+    },
+    {
+      "standard_name": "course_prerequisites",
+      "source_names": [
+        "Course Prerequisites"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "have_you_been_to_any_of_our_events_or_trainings_before?",
+      "source_names": [
+        "Have you been to any of our events or trainings before?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "follow_up_training",
+      "source_names": [
+        "Follow Up Training"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "event_registration_follow_up_training",
+      "source_names": [
+        "Event Registration Follow Up Training"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "entity": "Sponsorships",
+  "primary_key": "sponsorship_id",
+  "fields": [
+    {
+      "standard_name": "level",
+      "source_names": [
+        "Level"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "listing_level",
+      "source_names": [
+        "Listing Level"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Standard Listing; Standard Listing; Standard Listing"
+    },
+    {
+      "standard_name": "individual_default_access_level",
+      "source_names": [
+        "Individual/Default Access Level"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Standard Access; Guest Access; Guest Access"
+    },
+    {
+      "standard_name": "high_level_connections:",
+      "source_names": [
+        "High level connections:"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Contacts \u2194 Companies (many-to-one); Contacts \u2194 Training Completions \u2194 Course Catalog (many-to-many);"
+    },
+    {
+      "standard_name": "membership_level",
+      "source_names": [
+        "Membership Level"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    }
+  ]
+}

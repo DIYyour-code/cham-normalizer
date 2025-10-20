@@ -1,0 +1,142 @@
+{
+  "entity": "Events",
+  "primary_key": "event_id",
+  "fields": [
+    {
+      "standard_name": "event_start_date",
+      "source_names": [
+        "Event Start Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2023-06-26 00:00:00; 2023-08-23 17:00:00; 2022-07-20 15:00:00"
+    },
+    {
+      "standard_name": "event_end_date",
+      "source_names": [
+        "Event End Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2023-06-28 20:00:00; 2023-08-23 20:00:00; 2022-07-20 16:15:00"
+    },
+    {
+      "standard_name": "registration_date",
+      "source_names": [
+        "Registration Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2023-06-12 14:31:24.953; 2023-08-18 17:42:33.953; 2022-07-19 09:36:40.543"
+    },
+    {
+      "standard_name": "registration_id",
+      "source_names": [
+        "Registration ID"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 9688667; 9979934; 8200660"
+    },
+    {
+      "standard_name": "registration_status",
+      "source_names": [
+        "Registration Status"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Registered; Attended; Registered"
+    },
+    {
+      "standard_name": "event_categories",
+      "source_names": [
+        "Event Categories"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Networking Events; Webinar; Webinar"
+    },
+    {
+      "standard_name": "attended_count",
+      "source_names": [
+        "Attended Count"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "paid_registrations",
+      "source_names": [
+        "Paid Registrations"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 1; 0"
+    },
+    {
+      "standard_name": "unpaid_registrations",
+      "source_names": [
+        "Unpaid Registrations"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 0; 0; 0"
+    },
+    {
+      "standard_name": "registration_type",
+      "source_names": [
+        "Registration Type"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Registration; Early Bird Rate; Registration"
+    },
+    {
+      "standard_name": "have_you_attended_this_conference_before?",
+      "source_names": [
+        "Have you attended this conference before?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "are_you_coming_to_the_cham_annual_asset_management_conference_in_minneapolis_june_26-28__this_year?",
+      "source_names": [
+        "Are you coming to the CHAM Annual Asset Management Conference in Minneapolis June 26-28  this year?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "cham_conference",
+      "source_names": [
+        "CHAM Conference"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: No - Unfortunately not this time.; No - Unfortunately not this time."
+    },
+    {
+      "standard_name": "how_did_you_hear_of_this_event?",
+      "source_names": [
+        "How did you hear of this event?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "event_registration_prerequisite_requirement",
+      "source_names": [
+        "Event Registration Prerequisite Requirement"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Yes"
+    },
+    {
+      "standard_name": "event_location",
+      "source_names": [
+        "Event Location"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Webinar; Virtual; Webinar"
+    },
+    {
+      "standard_name": "event_description",
+      "source_names": [
+        "Event Description"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Nuts and Bolts of Asset Management is an interactive and engaging workshop designed for housing prac"
+    }
+  ]
+}

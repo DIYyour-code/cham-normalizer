@@ -1,0 +1,374 @@
+{
+  "entity": "Organizations",
+  "primary_key": "organization_id",
+  "fields": [
+    {
+      "standard_name": "org",
+      "source_names": [
+        "Org"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "all_businesses",
+      "source_names": [
+        "All Businesses"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NP DodgeManagement Company; Windham & Windsor Housing Trust; Madison Park Development Corporation"
+    },
+    {
+      "standard_name": "account_number",
+      "source_names": [
+        "Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 51096153.0; 51096166.0; 51096170.0"
+    },
+    {
+      "standard_name": "primary_business",
+      "source_names": [
+        "Primary Business"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NP DodgeManagement Company; Windham & Windsor Housing Trust; Madison Park Development Corporation"
+    },
+    {
+      "standard_name": "primary_business_firstfax",
+      "source_names": [
+        "Primary Business FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_postal",
+      "source_names": [
+        "Primary Business Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 68114.0; 5301.0; 2119.0"
+    },
+    {
+      "standard_name": "primary_business_country",
+      "source_names": [
+        "Primary Business Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_account_number",
+      "source_names": [
+        "Primary Business Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 22000787.0; 22001097.0; 22000595.0"
+    },
+    {
+      "standard_name": "primary_business_id",
+      "source_names": [
+        "Primary Business Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 14161516.0; 14162210.0; 14161702.0"
+    },
+    {
+      "standard_name": "primary_business_assigned_staff",
+      "source_names": [
+        "Primary Business Assigned Staff"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_primary_membership_start_date",
+      "source_names": [
+        "Primary Business Primary Membership Start Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_primary_membership_expiration_date",
+      "source_names": [
+        "Primary Business Primary Membership Expiration Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_primary_membership_last_activation_expiration_date",
+      "source_names": [
+        "Primary Business Primary Membership Last Activation Expiration Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "primary_business_categories",
+      "source_names": [
+        "Primary Business Categories"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Government; Nonprofit; Nonprofit"
+    },
+    {
+      "standard_name": "all_business_categories",
+      "source_names": [
+        "All Business Categories"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "business_category",
+      "source_names": [
+        "Business Category"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "active_individuals_with_business",
+      "source_names": [
+        "Active Individuals with Business"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "active_businesses_with_individual",
+      "source_names": [
+        "Active Businesses with Individual"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "is_your_organization's_focus_on_asset_management?",
+      "source_names": [
+        "Is your organization's focus on Asset Management?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "what_type_of_organization_do_you_work_for?",
+      "source_names": [
+        "What type of organization do you work for?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Government; Nonprofit"
+    },
+    {
+      "standard_name": "child_account_number",
+      "source_names": [
+        "Child Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_is_your_organization's_focus_on_asset_management?",
+      "source_names": [
+        "Role: Child Is your organization's focus on Asset Management?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_child_what_type_of_organization_do_you_work_for?",
+      "source_names": [
+        "Role: Child What type of organization do you work for?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_is_your_organization's_focus_on_asset_management?",
+      "source_names": [
+        "Role: Parent Is your organization's focus on Asset Management?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "role:_parent_what_type_of_organization_do_you_work_for?",
+      "source_names": [
+        "Role: Parent What type of organization do you work for?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "company_description",
+      "source_names": [
+        "Company Description"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NeighborWorks Boise (NWB) is an affordable housing private non-profit. We own apartment complexes, h"
+    },
+    {
+      "standard_name": "parent_org_firstfax",
+      "source_names": [
+        "Parent Org FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_postal",
+      "source_names": [
+        "Parent Org Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_country",
+      "source_names": [
+        "Parent Org Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_account_number",
+      "source_names": [
+        "Parent Org Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "parent_org_id",
+      "source_names": [
+        "Parent Org Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_category",
+      "source_names": [
+        "Child Org Category"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_firstfax",
+      "source_names": [
+        "Child Org FirstFax"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_postal",
+      "source_names": [
+        "Child Org Postal"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_country",
+      "source_names": [
+        "Child Org Country"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_account_number",
+      "source_names": [
+        "Child Org Account Number"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "child_org_id",
+      "source_names": [
+        "Child Org Id"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "access_levels_with_related_organizations",
+      "source_names": [
+        "Access Levels with Related Organizations"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NP DodgeManagement Company: Primary Access; Windham & Windsor Housing Trust: Non-Members; Madison Pa"
+    },
+    {
+      "standard_name": "account_created_date",
+      "source_names": [
+        "Account Created Date"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 2023-01-05 18:08:17.750; 2022-10-27 11:13:21.987; 2024-07-18 10:25:52.633"
+    },
+    {
+      "standard_name": "active_individuals_with_business__dup2",
+      "source_names": [
+        "Active Individuals with Business__dup2"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: 4.0; 2.0; 1.0"
+    },
+    {
+      "standard_name": "tag_these_organization_members_in_the_database.",
+      "source_names": [
+        "Tag these organization members in the database."
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: NASLEF; SAHF"
+    },
+    {
+      "standard_name": "what_are_the_lines_of_business_in_your_organization?",
+      "source_names": [
+        "What are the lines of business in your organization?"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    },
+    {
+      "standard_name": "account_description",
+      "source_names": [
+        "Account Description"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Undeposited Funds; Accounts Receivable; Undeposited Funds"
+    },
+    {
+      "standard_name": "organized_by",
+      "source_names": [
+        "Organized By"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Dema Al-Kakhan; Julia Pierson; Consortium for Housing and Asset Management"
+    },
+    {
+      "standard_name": "company",
+      "source_names": [
+        "Company"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: Entity Keeper, LLC; Department of Neighborhood Empowerment - City of L; Talbert House"
+    },
+    {
+      "standard_name": "organization",
+      "source_names": [
+        "Organization"
+      ],
+      "type": "string",
+      "description": "Field auto-detected from raw data. Sample values: "
+    }
+  ]
+}
