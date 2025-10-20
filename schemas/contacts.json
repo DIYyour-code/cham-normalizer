@@ -2314,5 +2314,55 @@
       "type": "string",
       "description": "Field auto-detected from raw data. Sample values: Other app; Other app; Other app"
     }
-  ]
+  ],
+  "merge_rules": {
+    "address_1": [
+      "Mailing Address 1",
+      "Physical Address 1",
+      "Default Address 1",
+      "Bill Address 1",
+      "Primary Business Address 1",
+      "Primary Contact Address 1"
+    ],
+    "address_2": [
+      "Mailing Address 2",
+      "Physical Address 2",
+      "Default Address 2",
+      "Bill Address 2",
+      "Primary Business Address 2",
+      "Primary Contact Address 2"
+    ],
+    "city": [
+      "Mailing City",
+      "Physical City",
+      "Default City",
+      "Bill City",
+      "Primary Business City",
+      "Primary Contact City"
+    ],
+    "state_province": [
+      "Mailing State Province",
+      "Physical State Province",
+      "Default State Province",
+      "Bill State Province",
+      "Primary Business State Province",
+      "Primary Contact State Province"
+    ],
+    "postal": [
+      "Mailing Postal",
+      "Physical Postal",
+      "Default Postal",
+      "Bill Postal",
+      "Primary Business Postal",
+      "Primary Contact Postal"
+    ],
+    "country": [
+      "Mailing Country",
+      "Physical Country",
+      "Default Country",
+      "Bill Country",
+      "Primary Business Country",
+      "Primary Contact Country"
+    ]
+  }
 }
